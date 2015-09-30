@@ -1,7 +1,7 @@
 # Testcars
 
 ## Usage
-exe/etaserver.rb
+ - exe/etaserver.rb
 ETA calculation service
 
 Main job is made by tcp server which is built with EventMachine.
@@ -11,11 +11,11 @@ Server keeps cache of car possitions which is refreshed every second and all geo
 For 1000 cars it can produce 400 rps for 10k connected clients ( for 100 cars it is 4000rps )
 
 
-exe/httpserver.rb
+ - exe/httpserver.rb
 Http server keeps persistent connections to eta service.
 Request: curl -d '{ "cmd" : "eta", "lat" : "55.786062", "lon" : "37.601596" }' 'http://78.47.105.102:8081/'
 
-Database:
+ - Database:
 CREATE SEQUENCE carseq_id
     START WITH 1
     INCREMENT BY 1
