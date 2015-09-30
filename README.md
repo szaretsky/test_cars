@@ -13,7 +13,7 @@ For 1000 cars it can produce 400 rps for 10k connected clients ( for 100 cars it
 
 exe/httpserver.rb
 Http server keeps persistent connections to eta service.
-
+Request: curl -d '{ "cmd" : "eta", "lat" : "55.786062", "lon" : "37.601596" }' 'http://78.47.105.102:8081/'
 
 Database:
 CREATE SEQUENCE carseq_id
