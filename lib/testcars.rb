@@ -8,54 +8,53 @@ require 'json'
 
 
 module Testcars
-  # server handler
-
+  
+  # server handler for server-server connection
   class CarServerConnClient < EM::Connection
     attr_accessor :response, :status
     def receive_data( data )
-      @response.content = JSON.generate( MessagePack.unpack( data.chomp ))
+      data.sub!(/\n$/,'')
+      @response.content = JSON.generate( MessagePack.unpack( data ))
       @response.send_response
-      @status = :free
+      HTTPJsonCarServer.release(self) 
     end
   end
-      
+     
+  # server handler for http json server 
   class HTTPJsonCarServer < EM::HttpServer::Server
 
     @@logger = Logger.new(STDERR)
     @@logger.level = Logger::INFO
 
     @@connections = []
+
     # initial connection pool to eta server creation
     def self.connect( host, port, connections )
       connections.times do
         newconn = EM.connect( host, port,  CarServerConnClient )
-        newconn.status = :free
         @@connections << newconn 
       end
     end
 
+    def self.release( conn )
+      @@connections.push( conn )
+    end
+
+    # look up for free connection
     def getetaserverconn
-      conn = nil
-      @@connections.each do |c|
-        if c.status == :free
-          c.status = :occupied
-          conn = c
-          break
-        end
-      end
-      conn
+      return @@connections.pop
     end
 
     def process_http_request
-      puts  @http_content
       request = JSON.parse(@http_content)
-
       response = EM::DelegatedHttpResponse.new(self)
       response.status = 200
       response.content_type 'text/html'
       conn = getetaserverconn
-      conn.response = response
-      conn.send_data(MessageTransport.pack( { 'cmd' => 'eta', 'lat' => request['lat'], 'lon' => request['lon'] }) + "\n" ) 
+      if conn
+        conn.response = response
+        conn.send_data(MessageTransport.pack( { 'cmd' => 'eta', 'lat' => request['lat'], 'lon' => request['lon'] }) + "\n" ) 
+      end
     end
 
     def http_request_errback e
@@ -65,6 +64,7 @@ module Testcars
   end
 
 
+  # eta server handler
   class CarServer < EM::Connection
 
     @@logger = Logger.new(STDERR)
