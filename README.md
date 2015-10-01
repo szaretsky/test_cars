@@ -1,5 +1,14 @@
 # Testcars
 
+to run:
+ruby exe/etaserver.rb
+ruby exe/httpserver.rb
+
+http responses at localhost:8081 for requests like { "cmd" : "eta", "lat" : "55.786062", "lon" : "37.601596" } ( at any location )
+to benchmark:
+ruby exe/exe/client_ev.rb  will print number of requests per second each 10 seconds
+
+
 ## Usage
  - exe/etaserver.rb
 ETA calculation service

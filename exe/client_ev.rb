@@ -30,7 +30,7 @@ class TestClient < EM::Connection
   end
 
   def unbind
-    puts "A connection has terminated"
+#    puts "A connection has terminated"
   end
 
 end
