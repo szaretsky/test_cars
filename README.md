@@ -1,4 +1,4 @@
-# Testcars
+## Testcars
 
 to run:  
 *ruby exe/etaserver.rb*  
@@ -10,7 +10,7 @@ to benchmark:
 *ruby exe/exe/client_ev.rb*  will print number of requests per second each 10 seconds
 
 
-## Usage
+#### Usage
 *exe/etaserver.rb*  
 ETA calculation service
 
@@ -26,7 +26,8 @@ Http server keeps persistent connections to eta service.
 Request: *curl -d '{ "cmd" : "eta", "lat" : "55.786062", "lon" : "37.601596" }' 'http://localhost:8081/'*
 
 
-*Database:*   
+#### Database: 
+ 
 ```SQL
 CREATE SEQUENCE carseq_id
     START WITH 1
@@ -48,12 +49,12 @@ CREATE TABLE cars (
 
 As far it is a sort of test server, there is no fallback logic. No reconnections and so on.
 
-Service and server requires:
+#### Service and server requires:
 
 
-  *eventmachine
-  *msgpack
-  *pg/em
-  *haversine
-  *logger
-  *em-http-server
+* eventmachine
+* msgpack
+* pg/em
+* haversine
+* logger
+* em-http-server
