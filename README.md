@@ -51,9 +51,9 @@ As far it is a sort of test server, there is no fallback logic. No reconnections
 Service and server requires:
 
 
-*eventmachine
-*msgpack
-*pg/em
-*haversine
-*logger
-*em-http-server
+  *eventmachine
+  *msgpack
+  *pg/em
+  *haversine
+  *logger
+  *em-http-server
